@@ -1,0 +1,319 @@
+/* Styles for desktop devices */
+@media only screen and (min-width: 768px) {
+    .desktop-only {
+      display: block;
+    }
+  
+    .mobile-only {
+      display: none;
+    }
+    body {
+      margin-top: 62px;
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      background: rgb(230, 230, 230);
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    }
+    
+    .main {
+      display: flex;
+      flex-direction: column;
+      
+      margin-top: 55px;
+    }
+    .BoxContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;                                                                              
+      flex: 1;
+    }
+    
+    .Chartcontainer {
+      display: flex;
+      flex: 1;
+      align-items: stretch;
+      
+    }
+    .canvascontainer{
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; 
+      
+      margin-left: 10px; 
+    }
+    .canvascontainer2{
+      background-color: white;
+      flex: 1;
+      margin-top: 10px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    .progressBar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 5px;
+      width: 100%;
+      background-color: #ffffff;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: #00a3cc;
+      width: 0; /* Initially set to 0 */
+      transition: width 0.3s ease; /* Add transition for smooth animation */
+    }
+    .canvascontainer {
+      background-color: white;
+      flex: 1;
+    }
+    .Tablecontainer {
+      display: flex;
+      align-items: stretch;
+      background-color: white;
+      flex: 1;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .Topcontainer{
+      display: flex;
+      flex: 1;
+      align-items: stretch;
+      
+      margin:   6px;
+    }
+    .flex-container {
+      display: flex;
+      justify-content: space-between; /* Align items to left and right */
+    }
+    .section1,.section2{
+      display: flex;
+    }
+    .box1 {
+      flex: 100px;
+      width: 200px;
+      height: 70px;
+      background: rgb(255, 255, 255);
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+      color: #000000;
+      position: relative;
+      cursor: pointer;
+      margin:5px;
+      display: flex;
+      flex-direction: column; /* Display flex items in reverse column order */
+    }
+    
+    
+    .flexbox {
+      display: flex;
+      align-items: center;
+      width: auto;
+    }
+    
+    
+    .headBox1, .headBox2, .headBox3, .headBox4, .headBox5{
+      padding-top: 6px;
+      padding-left: 6px;
+      font-size: 15px;
+      color: #000000;
+    }
+    .SubBox1, .SubBox2, .SubBox3, .SubBox4, .SubBox5{
+      flex: 1;
+      text-align: left;
+      font-size: 20px;
+      padding-top: 16px;
+      padding-left: 6px;
+      font-weight:bolder;
+    }
+    .perBox1, .perBox2, .perBox3, .perBox4 , .perBox5 {
+      position:static;
+    padding-right: 6px;
+    padding-top: 16px;
+    text-align: right;
+    font-size: 15px;
+    color: rgb(11, 145, 11);
+    }
+    
+     
+    
+    .SubBox1:hover,
+    .SubBox2:hover,
+    .SubBox3:hover,
+    .SubBox4:hover,
+    .SubBox5:hover,
+    .headBox1:hover,
+    .headBox2:hover,
+    .headBox3:hover,
+    .headBox4:hover,
+    .headBox5:hover {
+      color: #000000;
+    }
+    .box1:hover{
+      box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    }
+    table {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    }
+    
+    table td, table th {
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 11px;
+    }
+    
+    table tr:nth-child(even){
+      background-color: #f2f2f2;
+    }
+      
+    table tr:hover {
+      background-color: #ddd;
+    }
+    
+    table:hover{
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    }
+    
+    
+    table th {
+      text-align: left;
+      background-color: #00a3cc;
+      color: white;
+    }
+    
+    
+    #title1{
+      color: #4e4e4e;
+      font-size: smaller;
+    }
+    
+    #title2{
+      color: #4e4e4e;
+      font-size: smaller;
+    }
+      
+    /* Styles for smaller screens */
+    /* Responsive Styles */
+    
+      
+      
+  }
+  
+  /* Styles for mobile devices */
+  @media only screen and (max-width: 667px) {
+    .desktop-only {
+      display: none;
+    }
+  
+    .mobile-only {
+      display: block;
+    }
+    body{
+      background-color: #e4e2e2;
+    }
+    .main2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 55px;
+    }
+  
+    .dropdown{
+      text-align: center;
+    }
+    .infoBox {
+      border: 1px solid #ccc;
+      padding: 0px 20px 0px 20px;
+      margin-top: 10px;
+      background-color: #f9f9f9;
+      width: 200px;
+      height: auto;
+      text-align: center;
+    }
+    .chartBox {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      width: 200px;
+      height: auto;
+      text-align: center;
+    }
+
+    .tableBox {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      width: 200px;
+      height: auto;
+      text-align: center;
+    }
+
+    /* .headBox {
+      font-size: 18px;
+    } */
+
+    .SubBox{ flex: 1;
+      text-align: left;
+      font-size: 22px;
+      padding-left: 6px;
+      font-weight:bolder;
+    }
+
+    .perBox {
+     
+      position:static;
+    padding-right: 6px;
+    text-align: right;
+    font-size: 15px;
+    color: rgb(11, 145, 11);
+    }
+
+
+    .mob-flex {
+      display: flex;
+      align-items: center;
+      width: auto;
+    }
+    
+    
+    .headBox{
+      padding-top: 6px;
+      padding-left: 6px;
+      font-size: 15px;
+      color: #000000;
+    }
+    
+    #table {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    }
+    
+    table td, table th {
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 11px;
+    }
+    
+    table tr:nth-child(even){
+      background-color: #f2f2f2;
+    }
+      
+    table tr:hover {
+      background-color: #ddd;
+    }
+    
+    table:hover{
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    }
+    
+    table th {
+      text-align: left;
+      background-color: #00a3cc;
+      color: white;
+    }
+  }
+  

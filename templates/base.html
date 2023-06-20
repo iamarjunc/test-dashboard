@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My shop{% endblock %}</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/toorshia/justgage@1.4.1/justgage.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="https://daveanbits.com/wp-content/uploads/2019/10/final_logo.png">
+   </head>
+  <body>  
+      
+      <div class="topnav">
+
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="#home" class="active">Sales Report</a>
+        </div>
+        
+        <!-- Left-aligned links (default) -->
+        <a href="#news"><img src="https://www.thayillampaints.com/wp-content/uploads/2021/05/thayillam-logo.png"  alt=""></a>
+       
+        <!-- Right-aligned links -->
+        <div class="topnav-right">
+          <a href="#search"><img src="https://daveanbits.com/wp-content/uploads/2019/10/cropped-davean_Business_Logo_final.png" alt="Logo"  class="d-inline-block align-text-top"></a>
+        </div>
+        
+      </div>
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Sale</a>
+        <a href="#">Purchase</a>
+        <a href="#">Inventory</a>
+        <a href="#">Banking</a>
+      </div>
+      <div id="main">
+        <div class="d-flex flex-row" id="chart">
+          <span id="span" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+          <div id="content">{% block content %}{% endblock %}</div>      
+        </div>
+      </div>
+      <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "150px";
+          document.getElementById("main").style.marginLeft = "150px";
+          document.getElementById("span").style.display = "none";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+          document.getElementById("span").style.display = "block";
+        }
+      </script>   
+    
+  </body>
+</html> 

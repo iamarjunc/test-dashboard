@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+        <title>Biz Login</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet"  type="text/css" href="{% static 'css/login.css' %}">
+        <script>
+            function fun(){
+                const username = document.querySelector('#username').value;
+                const password = document.querySelector('#password').value;
+                if (username === 'admin' && password === '123') 
+                {} 
+                else 
+                {
+                    document.getElementById("id").style.visibility = "visible"; 
+                }
+            }
+        </script>
+    </head>   
+    <body class="text-center">    
+        <form class="form-signin" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <p id="error">{{ error }}
+                    {% if error %}
+                </p>
+                    {% endif %}
+            </div>
+            <img class="mb-4" src="{% static 'img/davean.png' %}" alt="" width="52" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Davean Enterprises</h1>
+            <label for="inputuname" class="sr-only">User Name</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary" type="submit" id="login-btn" onclick="fun()">Sign in</button>            
+            <p class="mt-5 mb-3 text-muted">&copy; 2023-2024</p>
+        </form>        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

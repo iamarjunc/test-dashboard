@@ -1,0 +1,593 @@
+{% extends "./base.html" %}
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Website</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/template1.css' %}">
+</head>
+<body>
+  <div class="desktop-only">
+    <div class="main">
+        <div class="Topcontainer">
+          <div class="BoxContainer">
+            <div class="section1">
+              <div class="box1">
+                <div class="headBox1"></div>
+                <div class="flexbox">
+                  <div class="SubBox1" id="SubBox11"></div>
+                  <div class="perBox1" id="SubBox11"></div> 
+                </div> 
+                <div class="progressBar">
+                  <div class="progress"></div>
+                </div>
+              </div>
+              <div class="box1">
+                <div class="headBox2"></div>
+                <div class="flexbox">
+                  <div class="SubBox2" id="SubBox12"></div>
+                  <div class="perBox2" id="SubBox12"></div>
+                </div>
+              </div>
+              <div class="box1">
+                <div class="headBox3"></div>
+                <div class="flexbox">
+                  <div class="SubBox3" id="SubBox13"></div>
+                  <div class="perBox3" id="SubBox13"></div>
+                </div>
+              </div>
+              <div class="box1">
+                <div class="headBox4"></div>
+                <div class="flexbox">
+                  <div class="SubBox4" id="SubBox14"></div>
+                  <div class="perBox4" id="SubBox14"></div>
+                </div>
+              </div>
+              <div class="box1">
+                <div class="headBox5"></div>
+                <div class="flexbox">
+                  <div class="SubBox5" id="SubBox15"></div>
+                  <div class="perBox5" id="SubBox15"></div>
+                </div>
+              </div>  
+            </div> 
+          </div>
+        </div>
+        <div class="Chartcontainer">
+          <div class="canvascontainer">
+            <canvas id="Chart1"></canvas>
+          </div>
+          <div class="canvascontainer">
+            <canvas id="Chart2"></canvas>
+          </div>
+          <div class="canvascontainer">
+            <canvas id="Chart3"></canvas>
+          </div>
+          
+          <div class="Tablecontainer">
+            <table>
+              <thead>
+                <tr>
+                  <th>Narration</th>
+                  <th>SaleAmt</th>
+                  <th>PerSale</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <footer>        
+          <i class='far fa-copyright' style='font-size:14px'></i> copyright @davean 2023
+        </footer>
+      </div>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Get the CSRF token from the cookie
+        const csrftoken = getCookie('csrftoken');
+        $.ajax({
+          url: 'http://127.0.0.1:8000/json/',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var chartBoxes = document.querySelectorAll('.headBox1, .headBox2, .headBox3, .headBox4, .headBox5');
+            var subBoxes = document.querySelectorAll('.SubBox1, .SubBox2, .SubBox3, .SubBox4, .SubBox5');
+            var perBoxes = document.querySelectorAll('.perBox1, .perBox2, .perBox3, .perBox4, .perBox5');        
+            for (var i = 0; i < chartBoxes.length; i++) {
+              chartBoxes[i].innerHTML = data.data.BranchName[i];
+            }
+            for (var i = 0; i < subBoxes.length; i++) {
+              subBoxes[i].innerHTML = data.data.SaleAmt[i];
+            }
+            for (var i = 0; i < perBoxes.length; i++) {
+              var progressValue = parseInt(data.data.Persale[i]); // Parse the value as an integer
+              progressValue = Math.min(progressValue, 200); // Limit the value to a maximum of 200
+      
+              var progressBar = document.createElement('div');
+              progressBar.classList.add('progress');
+              progressBar.style.width = (progressValue / 2) + '%'; // Divide by 2 to map the value to a 100% scale
+      
+              var progressBarContainer = document.createElement('div');
+              progressBarContainer.classList.add('progressBar');
+              progressBarContainer.appendChild(progressBar);
+      
+              var valueContainer = document.createElement('div');
+              valueContainer.classList.add('progressValue');
+              perBoxes[i].innerHTML = data.data.Persale[i]; // Set the progress value as the inner HTML
+      
+              var box1 = perBoxes[i].closest('.box1');
+              box1.appendChild(progressBarContainer);
+              box1.appendChild(valueContainer);
+            }
+
+            // Assuming you have access to the value you want to display as progress
+           
+
+             // Chart 1
+            var ctx1 = document.getElementById('Chart1').getContext('2d');
+            var myChart1 = new Chart(ctx1, {
+              type: 'bar',
+              data: {
+                labels: data.chart1.label,
+                datasets: [{
+                  label: data.chart1.Title[0],
+                  data: data.chart1.data,
+                  backgroundColor: '#00a3cc',
+                }]
+              },
+              options: {                
+                title: {
+                  display: false,
+                  position: 'left',
+                },
+                responsive: true,
+                scales: {
+                  x: {
+                      grid: {
+                          drawOnChartArea: false
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      grid: {
+                          drawOnChartArea: false
+                      }
+                  },
+                },
+                aspectRatio : 1,
+               }
+             });
+
+             
+            // Chart 2
+            var ctx2 = document.getElementById('Chart2').getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+              type: 'pie',
+              data: {
+                labels: data.chart2.label,
+                datasets: [{
+                  label: data.chart2.Title[0],
+                  data: data.chart2.data,
+                }]
+              },
+              options: {
+                plugins: {
+                  title: {
+                    display: true,
+                    text: data.chart2.Title[0],
+                  },
+                  legend: {
+                    position: 'right',
+                    labels: {
+                      boxWidth: 10,
+                      font: {
+                        size: 9
+                      }
+                    }
+                  }
+                },
+                aspectRatio : 1,
+              }
+            });
+            // Chart 3
+            var ctx3 = document.getElementById('Chart3').getContext('2d');
+            var myChart3 = new Chart(ctx3, {
+              type: 'doughnut',
+              data: {
+                labels: data.chart3.label,
+                datasets: [{
+                  label: data.chart3.Title[0],
+                  data: data.chart3.data,
+                }]
+              },            
+              options: {                                
+                plugins: {
+                  title: {
+                    display: true,
+                    text: data.chart3.Title[0],
+                  },
+                  legend: {
+                    position: 'right',
+                    labels: {
+                      boxWidth: 10,
+                      font: {
+                        size: 9
+                      }
+                    }
+                  }
+                },
+                aspectRatio : 1,
+              }
+            });       
+             
+
+
+            var tableBody = document.getElementById("table-body");
+            for (var i = 0; i < data.tableval.narration.length; i++) {
+              var row = document.createElement("tr");
+        
+              var narrationCell = document.createElement("td");
+              narrationCell.textContent =  data.tableval.narration[i];
+              row.appendChild(narrationCell);
+        
+              var saleAmtCell = document.createElement("td");
+              saleAmtCell.textContent =  data.tableval.saleamount[i];
+              row.appendChild(saleAmtCell);
+        
+              var perSaleCell = document.createElement("td");
+              perSaleCell.textContent =  data.tableval.percentsale[i];
+              row.appendChild(perSaleCell);
+                          
+              tableBody.appendChild(row);
+            }
+
+            var Boxes = document.querySelectorAll('.box1');
+            for (var i = 0; i < Boxes.length; i++) {
+              Boxes[i].addEventListener('click', function() {
+                var index = Array.from(Boxes).indexOf(this);
+                var branchCode = data.data.BranchCode[index];
+                $.ajax({
+                  type: 'POST',
+                  url: '/process_branch/',
+                  data: {
+                    'branchCode': branchCode
+                  },
+                  beforeSend: function(xhr) {
+                    // Include the CSRF token in the request header
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                  },
+                  dataType: 'json',
+                  success: function(response) {
+                    // Handle the success response here
+                    var tableBody = document.getElementById("table-body");
+                    tableBody.innerHTML = "";
+
+                    // Iterate over the data and create table rows
+                    for (var i = 0; i < response.Chartdata4.narration.length; i++) {
+                      var row = document.createElement("tr");                
+                      var narrationCell = document.createElement("td");
+                      narrationCell.textContent = response.Chartdata4.narration[i];
+                      row.appendChild(narrationCell);
+                
+                      var saleAmtCell = document.createElement("td");
+                      saleAmtCell.textContent = response.Chartdata4.saleamount[i];
+                      row.appendChild(saleAmtCell);
+                
+                      var perSaleCell = document.createElement("td");
+                      perSaleCell.textContent = response.Chartdata4.percentsale[i];
+                      row.appendChild(perSaleCell);
+
+                      tableBody.appendChild(row);
+                    }
+                      myChart1.data.labels = response.Chartdata1.label;
+                      myChart1.data.datasets[0].data = response.Chartdata1.data;
+                      myChart1.update();
+                      
+                      myChart2.data.labels = response.Chartdata2.label;
+                      myChart2.data.datasets[0].data = response.Chartdata2.data;
+                      myChart2.update();
+
+                      myChart3.data.labels = response.Chartdata3.label;
+                      myChart3.data.datasets[0].data = response.Chartdata3.data;
+                      myChart3.update();
+                  },
+                  error: function(response) {
+                    // Handle the error response here
+                    console.error(response);
+                  }
+                });
+              });
+            }
+          }
+        });
+        
+        // Function to get the value of a cookie by name
+        function getCookie(name) {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+      });
+    </script>
+  </div>
+  <div class="mobile-only">
+    <div class="main2">
+      <div class='dropdown'>
+        <label for="branchSelect">Select a branch:</label>
+        <select id="branchSelect">
+          <!-- Options will be dynamically generated here -->
+        </select>
+      </div>
+      <div id="branchInfoBox" class="infoBox">
+        <h2 class="headBox" id="branchHead"></h2>
+        <div class='det-flex'>
+          <div class='mob-flex'>
+          <p class="SubBox" id="saleAmount"> </p>
+          <p class="perBox" id="percentageSale"></p>
+        </div>
+      </div>
+        <progress class='progress' id="progress" max="100"></progress>
+      </div>
+      <div class="chartBox">
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chartBox">
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chartBox">
+        <canvas id="doughnutChart"></canvas>
+      </div>
+
+      <div class="tableBox">
+        <table id="table">
+          <thead>
+            <tr>
+              <th>Narration</th>
+              <th>SaleAmt</th>
+              <th>PerSale</th>
+            </tr>
+          </thead>
+          <tbody id="table-body2">
+          </tbody>
+        </table>
+      </div>
+      
+      <footer>        
+        <i class='far fa-copyright' style='font-size:14px'></i> copyright @davean 2023
+      </footer>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        // Fetch the JSON data using AJAX
+        fetch('http://127.0.0.1:8000/json/')
+          .then(response => response.json())
+          .then(data => {
+            // Get the branch names, codes, sale amounts, and percentage sales from the JSON data
+            const branchNames = data.data.BranchName;
+            const branchCodes = data.data.BranchCode;
+            const saleAmounts = data.data.SaleAmt;
+            const percentageSales = data.data.Persale;
+    
+            document.getElementById("branchHead").innerHTML =data.data.BranchName[0]      
+            document.getElementById("saleAmount").innerHTML =data.data.SaleAmt[0]      
+            document.getElementById("percentageSale").innerHTML =data.data.Persale[0]      
+            var progressBar = document.getElementById('progress');
+            var valueWithPercentage = data.data.Persale[0];
+            var valueWithoutPercentage = parseInt(valueWithPercentage.replace('%', ''));
+
+            // Update the value
+            progressBar.value = valueWithoutPercentage;
+
+
+            // Populate the dropdown options
+            const dropdown = document.getElementById('branchSelect');
+            branchNames.forEach((branchName, index) => {
+              const option = document.createElement('option');
+              option.value = branchCodes[index];
+              option.text = branchName;
+              dropdown.appendChild(option);
+            });
+             // Initialize the bar chart
+      const barChartElement = document.getElementById('barChart');
+      const barChart = new Chart(barChartElement, {
+        type: 'bar',
+              data: {
+                labels: data.chart1.label,
+                datasets: [{
+                  label: data.chart1.Title[0],
+                  data: data.chart1.data,
+                  backgroundColor: '#00a3cc',
+                }]
+              },
+              options: {                
+                title: {
+                  display: false,
+                  position: 'left',
+                },
+                responsive: true,
+                //indexAxis:'y'
+                scales: {
+                  x: {
+                      grid: {
+                          drawOnChartArea: false
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      grid: {
+                          drawOnChartArea: false
+                      }
+                  },
+                },
+                aspectRatio : 1,
+               }
+             });
+
+
+      // Initialize the pie chart
+      const pieChartElement = document.getElementById('pieChart');
+      const pieChart = new Chart(pieChartElement, {
+        type: 'pie',
+              data: {
+                labels: data.chart2.label,
+                datasets: [{
+                  label: data.chart2.Title[0],
+                  data: data.chart2.data,
+                }]
+              },
+              options: {
+                plugins: {
+                  title: {
+                    display: true,
+                    text: data.chart2.Title[0],
+                  },
+                  legend: {
+                    position: 'bottom',
+                    labels: {
+                      boxWidth: 10,
+                      font: {
+                        size: 9
+                      }
+                    }
+                  }
+                },
+                aspectRatio : 1,
+              }
+            });
+    
+            var doughnutElement = document.getElementById('doughnutChart').getContext('2d');
+            var doughnutChart = new Chart(doughnutElement, {
+              type: 'doughnut',
+              data: {
+                labels: data.chart3.label,
+                datasets: [{
+                  label: data.chart3.Title[0],
+                  data: data.chart3.data,
+                }]
+              },            
+              options: {                                
+                plugins: {
+                  title: {
+                    display: true,
+                    text: data.chart3.Title[0],
+                  },
+                  legend: {
+                    position: 'bottom',
+                    labels: {
+                      boxWidth: 10,
+                      font: {
+                        size: 9
+                      }
+                    }
+                  }
+                },
+                aspectRatio : 1,
+              }
+            });     
+
+            var tableBody = document.getElementById("table-body2");
+            for (var i = 0; i < data.tableval.narration.length; i++) {
+              var row = document.createElement("tr");
+        
+              var narrationCell = document.createElement("td");
+              narrationCell.textContent =  data.tableval.narration[i];
+              row.appendChild(narrationCell);
+        
+              var saleAmtCell = document.createElement("td");
+              saleAmtCell.textContent =  data.tableval.saleamount[i];
+              row.appendChild(saleAmtCell);
+        
+              var perSaleCell = document.createElement("td");
+              perSaleCell.textContent =  data.tableval.percentsale[i];
+              row.appendChild(perSaleCell);
+                          
+              tableBody.appendChild(row);
+            }
+
+            // Event listener for dropdown change
+            dropdown.addEventListener('change', function () {
+              const selectedBranchCode = this.value;
+              console.log('Selected branch code:', selectedBranchCode);
+    
+              // Find the index of the selected branch
+              const selectedIndex = branchCodes.indexOf(selectedBranchCode);
+    
+              // Update the sale amount and percentage sale in the box 
+              const branchElement = document.getElementById('branchHead');
+              const saleAmountElement = document.getElementById('saleAmount');
+              const percentageSaleElement = document.getElementById('percentageSale');
+    
+              branchElement.textContent = branchNames[selectedIndex];
+              saleAmountElement.textContent = saleAmounts[selectedIndex];
+              percentageSaleElement.textContent = percentageSales[selectedIndex];
+ 
+              var progressBarclick = document.getElementById('progress');
+              var valueWithPercentage2 = data.data.Persale[selectedIndex];
+              var valueWithoutPercentage2 = parseInt(valueWithPercentage2.replace('%', ''));
+  
+              // Update the value
+              progressBarclick.value = valueWithoutPercentage2;
+     
+              // Perform AJAX POST request
+              $.ajax({
+                type: 'POST',
+                url: '/process_branch/',
+                data: {
+                  'branchCode': selectedBranchCode
+                },
+                success: function (response) {
+                  var tableBody = document.getElementById("table-body2");
+                  tableBody.innerHTML = "";
+
+                  // Iterate over the data and create table rows
+                  for (var i = 0; i < response.Chartdata4.narration.length; i++) {
+                    var row = document.createElement("tr");                
+                    var narrationCell = document.createElement("td");
+                    narrationCell.textContent = response.Chartdata4.narration[i];
+                    row.appendChild(narrationCell);
+              
+                    var saleAmtCell = document.createElement("td");
+                    saleAmtCell.textContent = response.Chartdata4.saleamount[i];
+                    row.appendChild(saleAmtCell);
+              
+                    var perSaleCell = document.createElement("td");
+                    perSaleCell.textContent = response.Chartdata4.percentsale[i];
+                    row.appendChild(perSaleCell);
+
+                    tableBody.appendChild(row);
+                  }
+                  barChart.data.labels = response.Chartdata1.label;
+                  barChart.data.datasets[0].data = response.Chartdata1.data;
+                  barChart.update();
+                  
+                  
+                  pieChart.data.labels = response.Chartdata2.label;
+                  pieChart.data.datasets[0].data = response.Chartdata2.data;
+                  pieChart.update();
+
+                  doughnutChart.data.labels = response.Chartdata3.label;
+                  doughnutChart.data.datasets[0].data = response.Chartdata3.data;
+                  doughnutChart.update();
+                  // Handle the response as needed
+                },
+                error: function (error) {
+                  console.error('POST request error:', error);
+                  // Handle the error as needed
+                }
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      </script>
+    </div>
+</body>
+</html>
+{% endblock %}
